@@ -67,10 +67,9 @@ $(document).ready(function () {
             method: "get",
             success: function (res) {
                 $("#searchList").append(res);
+                console.log(res);
             }
-
         })
-
     })
 
     
