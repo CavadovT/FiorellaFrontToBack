@@ -35,7 +35,46 @@ $(document).ready(function () {
                 autoplay: true
             }
         );
-      });
+    });
+
+    //LoadMore
+    let skip = 2;
+    $(document).on('click', '#loadMore', ()=> {
+        let productlist = $("#productList");
+        $.ajax(
+            {
+                url: "/product/loadMore?skip="+skip,
+                method: "get",
+                success: function (res) {
+                    productlist.append(res);
+                    skip += 2;
+                    if ((res.trim().length) == 0)
+                    {
+                        $("#loadMore").remove();
+                    }
+                }
+            }
+        )
+    })
+
+     //Search
+
+    $(document).on('keyup', '#input-search', ()=> {
+        let inputVal = $(this).val();
+        $("#searchList li").slice(1).remove();
+        $.ajax({
+            url: "home/searchProduct?search=" + inputVal,
+            method: "get",
+            success: function (res) {
+                $("#searchList").append(res);
+            }
+
+        })
+
+    })
+
+    
+
 
     // PRODUCT
 
