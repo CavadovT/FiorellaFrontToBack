@@ -59,17 +59,19 @@ $(document).ready(function () {
 
      //Search
 
-    $(document).on('keyup', '#input-search', ()=> {
-        let inputVal = $(this).val();
+    $(document).on("keyup","#input-search", function() {
+        let InputValue = $(this).val();
         $("#searchList li").slice(1).remove();
-        $.ajax({
-            url: "home/searchProduct?search=" + inputVal,
-            method: "get",
-            success: function (res) {
-                $("#searchList").append(res);
-                console.log(res);
+        $.ajax(
+            {
+                url: "home/searchProduct?search=" + InputValue,
+                method: "get",
+                success: function (res) {
+                    $("#searchList").append(res);
+                    console.log(res);
+                }
             }
-        })
+        )
     })
 
     

@@ -45,7 +45,7 @@ namespace FrontToBack.Controllers
                     .OrderBy(p => p.Id)
                     .Where(p => p.Name.ToLower()
                     .Contains(search.ToLower()))
-                    .Take(10)
+                    .Take(search.Length*3)
                     .ToList();
             return PartialView("_SearchPartial", products);
         }
