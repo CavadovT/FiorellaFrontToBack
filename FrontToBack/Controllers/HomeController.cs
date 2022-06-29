@@ -22,6 +22,13 @@ namespace FrontToBack.Controllers
             homeVM.SliderContent = _context.SliderContents.FirstOrDefault();
             homeVM.Categories = _context.Categories.ToList();
             homeVM.Products = _context.Products.Include(p => p.Category).ToList();
+            homeVM.About = _context.Abouts.FirstOrDefault();
+            homeVM.Icons = _context.Icons.ToList();
+            homeVM.Blogs=_context.Blogs.ToList();
+            homeVM.Experts=_context.Experts.ToList();
+            homeVM.Says=_context.Says.ToList();
+            homeVM.Instagrams=_context.Instagrams.ToList();
+
             return View(homeVM);
         }
         public IActionResult Detail(int? id, string name)
