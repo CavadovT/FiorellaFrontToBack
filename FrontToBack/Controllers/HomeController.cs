@@ -31,20 +31,7 @@ namespace FrontToBack.Controllers
 
             return View(homeVM);
         }
-        public IActionResult Detail(int? id, string name)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Product dbProduct=_context.Products.FirstOrDefault(p => p.Id == id);
-            if(dbProduct==null)
-            {
-                return NotFound();
-            }
-            return View(dbProduct);
-
-        }
+        
         public IActionResult SearchProduct(string search)
         {
             List<Product> products = _context.Products

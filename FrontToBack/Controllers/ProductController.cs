@@ -25,7 +25,7 @@ namespace FrontToBack.Controllers
 
         public IActionResult Index()
         {
-            List<Product> products = _context.Products.Take(2).Include(p => p.Category).ToList();
+            List<Product> products = _context.Products.Include(p => p.Category).ToList();
 
             return View(products);
         }
@@ -81,6 +81,20 @@ namespace FrontToBack.Controllers
             return PartialView("_LoadMorePartial", products);
 
         }
-        
+        public IActionResult Detail(int? id, string name)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Product dbProduct = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (dbProduct == null)
+            {
+                return NotFound();
+            }
+            return View(dbProduct);
+
+        }
+
     }
 }

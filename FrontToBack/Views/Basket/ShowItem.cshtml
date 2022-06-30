@@ -1,0 +1,39 @@
+﻿@model List<ProductReturnVM>
+@{
+    ViewData["Title"] = "ShowItem";
+    int count = 0;
+}
+
+<div class="container">
+    <div class="row">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+   @foreach (var item in Model)
+                {
+                    count++;
+    <tr>
+      <th scope="row">@count</th>
+      <td><img width="50" height="50" src="~/img/@item.ImgUrl"/></td>
+      <td>@item.Name</td>
+      <td>@item.Price</td>
+      <td>@item.ProductCount</td>
+    </tr>
+      
+  }
+    
+  </tbody>
+</table>
+    </div>
+</div>
+

@@ -27,7 +27,7 @@ namespace FrontToBack
             });
             services.AddSession(opt =>
             {
-                opt.IdleTimeout = TimeSpan.FromMinutes(1);
+                opt.IdleTimeout = TimeSpan.FromMinutes(5);
 
             });
         }
