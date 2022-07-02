@@ -13,7 +13,7 @@ namespace FrontToBack.DAL
         public DbSet<SliderContent> SliderContents { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Bio> Bio { get; set; }
+        public DbSet<Bio> Bios { get; set; }
         public DbSet<About> Abouts { get; set; }
         public DbSet<Icon> Icons { get; set; }
         public DbSet<Expert> Experts { get; set; }

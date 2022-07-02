@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrontToBack.Controllers
@@ -52,20 +53,15 @@ namespace FrontToBack.Controllers
                 ProductReturnVM prodVM = new ProductReturnVM
                 {
                     Id = dbProd.Id,
-                    Name = dbProd.Name,
-                    Price = dbProd.Price,
-                    ImgUrl = dbProd.ImgUrl,
-                    CategoryId = dbProd.CategoryId,
-                    //Category = dbProd.Category.CategoryName,
                     ProductCount = 1
 
                 };
                 products.Add(prodVM);
             }
-            else 
+            else
             {
                 IsExist.ProductCount++;
-            
+
             }
             Response.Cookies.Append("basket", JsonConvert.SerializeObject(products), new CookieOptions { MaxAge = TimeSpan.FromDays(5) });
             return RedirectToAction("index", "product");
@@ -75,10 +71,80 @@ namespace FrontToBack.Controllers
         {
             //string name= HttpContext.Session.GetString("name");
 
+            List<ProductReturnVM> prods;
+            string basket = Request.Cookies["basket"];
+            if (basket != null)
+            {
+                prods = JsonConvert.DeserializeObject<List<ProductReturnVM>>(basket);
+                foreach (var item in prods)
+                {
+                    Product dbProd = _context.Products.FirstOrDefault(p => p.Id == item.Id);
+                    item.Price = dbProd.Price;
+                    item.ImgUrl = dbProd.ImgUrl;
+                    item.Name = dbProd.Name;
+                    item.CategoryId = dbProd.CategoryId;
+                }
+
+            }
+            else
+            {
+                prods = new List<ProductReturnVM>();
+            }
+            return View(prods);
+        }
+        public IActionResult minusBtn(int id)
+        {
 
             string basket = Request.Cookies["basket"];
+
             List<ProductReturnVM> prods = JsonConvert.DeserializeObject<List<ProductReturnVM>>(basket);
-            return View(prods);
+
+
+            ProductReturnVM product = prods.Find(p => p.Id == id);
+            if (product.ProductCount > 1)
+            {
+                product.ProductCount--;
+            }
+            else
+            {
+                prods.Remove(product);
+            }
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(prods), new CookieOptions { MaxAge = TimeSpan.FromDays(5) });
+
+            return RedirectToAction("ShowItem", "basket");
+        }
+        public IActionResult plusBtn(int id)
+        {
+            string basket = Request.Cookies["basket"];
+
+            List<ProductReturnVM> prods = JsonConvert.DeserializeObject<List<ProductReturnVM>>(basket);
+
+
+            ProductReturnVM product = prods.Find(p => p.Id == id);
+
+            product.ProductCount++;
+
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(prods), new CookieOptions { MaxAge = TimeSpan.FromDays(5) });
+
+            return RedirectToAction("ShowItem", "basket");
+        }
+        public IActionResult RemoveItem(int id)
+        {
+            string basket = Request.Cookies["basket"];
+
+            List<ProductReturnVM> prods = JsonConvert.DeserializeObject<List<ProductReturnVM>>(basket);
+
+
+            ProductReturnVM product = prods.Find(p => p.Id == id);
+
+            prods.Remove(product);
+
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(prods), new CookieOptions { MaxAge = TimeSpan.FromDays(5) });
+
+            return RedirectToAction("ShowItem", "basket");
         }
     }
 }

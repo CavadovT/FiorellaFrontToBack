@@ -17,7 +17,7 @@ namespace FrontToBack.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            Bio bio = _context.Bio.FirstOrDefault();
+            Bio bio = _context.Bios.FirstOrDefault();
             return View(await Task.FromResult(bio));
 
         }
