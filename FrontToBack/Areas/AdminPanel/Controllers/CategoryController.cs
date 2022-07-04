@@ -28,7 +28,18 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
             return Content($"{category.CategoryName}");
+        }
+        public IActionResult Detail(int? id) 
+        {
+        if(id==null) return NotFound();
+        Category category = _context.Categories.Find(id);
+            if(category==null) return BadRequest();
+
         }
     }
 }
