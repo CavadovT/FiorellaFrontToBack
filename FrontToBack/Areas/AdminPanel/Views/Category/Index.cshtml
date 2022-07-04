@@ -1,0 +1,46 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int count = 0;
+}
+
+ <div class="row">
+                    <div class="col-sm-8">
+                        <div class="white-box">
+                            <h3 class="box-title">Category Table</h3>
+                           <a class="btn btn-warning" asp-action="create">Add Category</a>
+                            <div class="table-responsive">
+                                <table class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">No</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Settings</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                       {
+                                           count++;
+                                            <tr>
+                                            <td>@count</td>
+                                            <td>@item.CategoryName</td>
+                                            
+                                            <td>
+
+                                                <a  class="mx-2 btn btn-secondary" asp-action="update" asp-route-id="@item.Id"><i  class="fas fa-database"></i></a>
+                                                <a class="mx-2 btn btn-primary" asp-action="detail" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a>
+                                                <a class="mx-2 btn btn-danger" asp-action="delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                       }
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+

@@ -43,14 +43,21 @@ namespace FrontToBack
             app.UseRouting();
             app.UseStaticFiles();
             app.UseSession();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    "default",
-                    "{controller=home}/{action=Index}/{Id?}"
+                    "Areas",
+                    "{area:exists}/{Controller=Dashboard}/{Action=Index}/{Id?}"
                     );
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{Controller=Home}/{Action=Index}/{Id?}"
+                    );
+
             });
+            
+
         }
     }
 }

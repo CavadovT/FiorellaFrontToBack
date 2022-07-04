@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+<form method="post">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Name</label>
+    <input  name="name" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <button type="submit" class="btn btn-success">Submit</button>
+ <a class="btn btn-dark" asp-action="Index">Go Back</a>
+</form>
+</div>
+
