@@ -1,7 +1,7 @@
 ﻿
 @model Category
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
     Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="row">
@@ -22,23 +22,7 @@
 </div>
 @section scripts
 {
-
     <partial name="_ValidationPartial"></partial>
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-
-
-     <script>
-    
-                        ClassicEditor
-                                .create( document.querySelector( '#Description' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
-             
-     </script>
 }
 @section css
 {
@@ -46,3 +30,4 @@
 
     </style>
 }
+

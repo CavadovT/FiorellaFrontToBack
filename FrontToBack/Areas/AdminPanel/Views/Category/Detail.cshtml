@@ -1,0 +1,20 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+ <div class="card" style="width: 18rem;">
+  <div class="card-body">
+      <strong>Name of Category</strong>
+    <p class="card-text">@Model.Name</p>
+    <strong>Description of Category</strong>
+    <p class="card-text">@Model.Description</p>
+
+
+  </div>
+  <a class="btn btn-cyan" asp-action="index">Go To Back</a>
+</div>
+</div>
+
