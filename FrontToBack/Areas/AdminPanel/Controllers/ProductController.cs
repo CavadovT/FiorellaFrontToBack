@@ -178,55 +178,6 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
             return RedirectToAction("index");
 
         }
-        // ikinci methoda ehtiyac qalmadi ikisini bir yerde yoxladim set eledim
-
-        #region Photo Empty
-        ///// <summary>
-        ///// burada ise admin giib meselen istese tekce sayi deyisir save edir cixir
-        ///// bu halda modelin uzerindeki required goturulmelidi
-        ///// </summary>
-        ///// <param name="product"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Update(Product product)
-        //{
-        //    ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View();
-        //    }
-        //    Product dbProd = await _context.Products.FindAsync(product.Id);
-        //    if (dbProd == null)
-        //    {
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower() == product.Name.Trim().ToLower());
-        //        if (dbProductName != null)
-        //        {
-        //            if (dbProductName.Name.Trim().ToLower() != dbProd.Name.Trim().ToLower())
-        //            {
-        //                ModelState.AddModelError("Name", "with this name product allready exist!!!");
-        //                return View();
-        //            }
-        //        }
-
-
-        //        dbProd.Name = product.Name;
-        //        dbProd.Price = product.Price;
-        //        dbProd.CategoryId = product.CategoryId;
-        //        dbProd.Count = product.Count;
-        //        dbProd.ImgUrl = dbProd.ImgUrl;
-        //        await _context.SaveChangesAsync();
-
-        //    }
-        //    return RedirectToAction("index");
-
-        //}
-        #endregion
-
-
+        
     }
 }
