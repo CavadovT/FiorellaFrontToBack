@@ -25,12 +25,12 @@
                  <span class="text-danger" asp-validation-for="Count"></span>
               </div>
 
-              <select asp-for="CategoryId" asp-items="@ViewBag.Categories" required class="form-select">
+              <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select">
                  
                   <option selected>Select the Category</option>
              
                 </select>
-                  <span class="text-danger" asp-validation-for="CategoryId"></span>
+                @*  <span class="text-danger" asp-validation-for="CategoryId"></span>*@
 
 
                 <div class="form-group">

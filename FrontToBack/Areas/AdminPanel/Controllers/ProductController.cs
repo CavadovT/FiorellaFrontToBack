@@ -114,27 +114,32 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
 
 
         }
-
+        /// <summary>
+        /// burada sekli default qoya bilmez admin gerek updateye girdise deyise yeni sekil add ede 
+        /// amma nezere aldim ki bu seklin evvelkini silsin imgden
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(Product product)
         {
             ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
-            return View();
+                return View();
             }
             Product dbProd = await _context.Products.FindAsync(product.Id);
             if (dbProd == null)
             {
                 return View();
             }
-            else 
+            else
             {
                 Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower() == product.Name.Trim().ToLower());
-                if (dbProductName != null) 
+                if (dbProductName != null)
                 {
-                    if (dbProductName.Name.Trim().ToLower() != dbProd.Name.Trim().ToLower()) 
+                    if (dbProductName.Name.Trim().ToLower() != dbProd.Name.Trim().ToLower())
                     {
                         ModelState.AddModelError("Name", "with this name product allready exist!!!");
                         return View();
@@ -161,7 +166,7 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
                 dbProd.Name = product.Name;
                 dbProd.Price = product.Price;
                 dbProd.CategoryId = product.CategoryId;
-                dbProd.Count=product.Count;
+                dbProd.Count = product.Count;
                 dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
                 await _context.SaveChangesAsync();
 
@@ -169,5 +174,53 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
             return RedirectToAction("index");
 
         }
+        #region Photo Empty
+        ///// <summary>
+        ///// burada ise admin giib meselen istese tekce sayi deyisir save edir cixir
+        ///// bu halda modelin uzerindeki required goturulmelidi
+        ///// </summary>
+        ///// <param name="product"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Update(Product product)
+        //{
+        //    ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View();
+        //    }
+        //    Product dbProd = await _context.Products.FindAsync(product.Id);
+        //    if (dbProd == null)
+        //    {
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower() == product.Name.Trim().ToLower());
+        //        if (dbProductName != null)
+        //        {
+        //            if (dbProductName.Name.Trim().ToLower() != dbProd.Name.Trim().ToLower())
+        //            {
+        //                ModelState.AddModelError("Name", "with this name product allready exist!!!");
+        //                return View();
+        //            }
+        //        }
+
+
+        //        dbProd.Name = product.Name;
+        //        dbProd.Price = product.Price;
+        //        dbProd.CategoryId = product.CategoryId;
+        //        dbProd.Count = product.Count;
+        //        dbProd.ImgUrl = dbProd.ImgUrl;
+        //        await _context.SaveChangesAsync();
+
+        //    }
+        //    return RedirectToAction("index");
+
+        //}
+        #endregion
+
+
     }
 }
