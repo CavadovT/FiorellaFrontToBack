@@ -1,0 +1,73 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <h1>@ViewData["Title"] Product</h1>
+        <form method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                 <label asp-for="Name" ></label>
+                 <input asp-for="Name"  class="form-control"  placeholder="Enter Name">
+                 <span class="text-danger" asp-validation-for="Name"></span>
+              </div>
+
+              <div class="form-group">
+                 <label asp-for="Price" ></label>
+                 <input asp-for="Price"  class="form-control"   placeholder="Enter Price">
+                 <span class="text-danger" asp-validation-for="Price"></span>
+              </div>
+
+              <div class="form-group">
+                 <label asp-for="Count" ></label>
+                 <input asp-for="Count"  class="form-control"   placeholder="Enter Count">
+                 <span class="text-danger" asp-validation-for="Count"></span>
+              </div>
+
+              <select asp-for="CategoryId" asp-items="@ViewBag.Categories" required class="form-select">
+                 
+                  <option selected>Select the Category</option>
+             
+                </select>
+                  <span class="text-danger" asp-validation-for="CategoryId"></span>
+
+
+                <div class="form-group">
+                 <label asp-for="Photo" ></label>
+                 <input asp-for="Photo"  class="form-control"   placeholder="Choose Photo">
+                 <span class="text-danger" asp-validation-for="Photo"></span>
+              </div>
+
+              <button type="submit" class="btn btn-success">Submit</button>
+             <a class="btn btn-dark" asp-action="Index">Go Back</a>
+        </form>
+</div>
+@section scripts
+{
+
+    <partial name="_ValidationPartial"></partial>
+    @*<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>*@
+
+
+    @* <script>
+    
+                        ClassicEditor
+                                .create( document.querySelector( '#Description' ) )
+                                .then( editor => {
+                                        console.log( editor );
+                                } )
+                                .catch( error => {
+                                        console.error( error );
+                                } );
+             
+     </script>*@
+}
+@section css
+{
+    <style>
+
+    </style>
+}
+
+

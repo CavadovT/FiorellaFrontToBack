@@ -104,9 +104,70 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
         }
 
 
-        public async Task<IActionResult> Update() 
+        public async Task<IActionResult> Update(int? Id) 
         {
-        
+            if(Id==null) return NotFound();
+            Product dbProd = await _context.Products.FindAsync(Id);
+            if (dbProd == null) return BadRequest();
+            return View(dbProd);
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Product product)
+        {
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+            if (!ModelState.IsValid) 
+            {
+            return View();
+            }
+            Product dbProd = await _context.Products.FindAsync(product.Id);
+            if (dbProd == null)
+            {
+                return View();
+            }
+            else 
+            {
+                Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower() == product.Name.Trim().ToLower());
+                if (dbProductName != null) 
+                {
+                    if (dbProductName.Name.Trim().ToLower() != dbProd.Name.Trim().ToLower()) 
+                    {
+                        ModelState.AddModelError("Name", "with this name product allready exist!!!");
+                        return View();
+                    }
+                }
+                if (product.Photo == null)
+                {
+                    ModelState.AddModelError("Photo", "don't leave it blank!!!");
+                    return View();
+                }
+                if (!product.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Choose the photo");
+                    return View();
+                }
+                if (product.Photo.ValidSize(200))
+                {
+                    ModelState.AddModelError("Photo", "oversize");
+                    return View();
+                }
+                string oldPhoto = dbProd.ImgUrl;
+                string path = Path.Combine(_env.WebRootPath, "img", oldPhoto);
+                Helper.Helper.DeleteImage(path);
+                dbProd.Name = product.Name;
+                dbProd.Price = product.Price;
+                dbProd.CategoryId = product.CategoryId;
+                dbProd.Count=product.Count;
+                dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
+                await _context.SaveChangesAsync();
+
+            }
+            return RedirectToAction("index");
+
         }
     }
 }
