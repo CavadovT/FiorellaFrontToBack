@@ -12,7 +12,6 @@ namespace FrontToBack.Models
         public string ImgUrl { get; set; }
 
         [NotMapped]
-        [Required]
         public IFormFile Photo { get; set; }
         public float Price { get; set; }
         [Required]

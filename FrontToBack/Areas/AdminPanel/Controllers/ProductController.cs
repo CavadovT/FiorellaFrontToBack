@@ -147,33 +147,39 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
                 }
                 if (product.Photo == null)
                 {
-                    ModelState.AddModelError("Photo", "don't leave it blank!!!");
-                    return View();
+                    dbProd.ImgUrl = dbProd.ImgUrl;
                 }
-                if (!product.Photo.IsImage())
+                else 
                 {
-                    ModelState.AddModelError("Photo", "Choose the photo");
-                    return View();
+                    if (!product.Photo.IsImage())
+                    {
+                        ModelState.AddModelError("Photo", "Choose the photo");
+                        return View();
+                    }
+                    if (product.Photo.ValidSize(200))
+                    {
+                        ModelState.AddModelError("Photo", "oversize");
+                        return View();
+                    }
+                    string oldPhoto = dbProd.ImgUrl;
+                    string path = Path.Combine(_env.WebRootPath, "img", oldPhoto);
+                    dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
+
+                    Helper.Helper.DeleteImage(path);
                 }
-                if (product.Photo.ValidSize(200))
-                {
-                    ModelState.AddModelError("Photo", "oversize");
-                    return View();
-                }
-                string oldPhoto = dbProd.ImgUrl;
-                string path = Path.Combine(_env.WebRootPath, "img", oldPhoto);
-                Helper.Helper.DeleteImage(path);
+               
                 dbProd.Name = product.Name;
                 dbProd.Price = product.Price;
                 dbProd.CategoryId = product.CategoryId;
                 dbProd.Count = product.Count;
-                dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
                 await _context.SaveChangesAsync();
 
             }
             return RedirectToAction("index");
 
         }
+        // ikinci methoda ehtiyac qalmadi ikisini bir yerde yoxladim set eledim
+
         #region Photo Empty
         ///// <summary>
         ///// burada ise admin giib meselen istese tekce sayi deyisir save edir cixir
