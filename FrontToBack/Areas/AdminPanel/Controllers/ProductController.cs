@@ -106,11 +106,11 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
 
         public async Task<IActionResult> Update(int? Id) 
         {
-            if(Id==null) return NotFound();
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+            if (Id==null) return NotFound();
             Product dbProd = await _context.Products.FindAsync(Id);
             if (dbProd == null) return BadRequest();
             return View(dbProd);
-            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
 
 
         }
