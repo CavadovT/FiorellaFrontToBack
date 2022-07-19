@@ -1,9 +1,10 @@
 ﻿using FrontToBack.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FrontToBack.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext>options):base(options)
         {
@@ -20,5 +21,8 @@ namespace FrontToBack.DAL
         public DbSet<Say> Says { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Instagram> Instagrams { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleProduct> SaleProducts { get; set; }
+
     }
 }

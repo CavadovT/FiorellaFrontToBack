@@ -2,6 +2,7 @@
 using FrontToBack.Models;
 using FrontToBack.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -14,10 +15,12 @@ namespace FrontToBack.Controllers
     public class BasketController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public BasketController(AppDbContext context)
+        public BasketController(AppDbContext context,UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -145,6 +148,45 @@ namespace FrontToBack.Controllers
             Response.Cookies.Append("basket", JsonConvert.SerializeObject(prods), new CookieOptions { MaxAge = TimeSpan.FromDays(5) });
 
             return RedirectToAction("ShowItem", "basket");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Sale()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser user =await _userManager.FindByNameAsync(User.Identity.Name);
+                Sale sale = new Sale();
+                sale.SaleDate=DateTime.Now;
+                sale.AppUserId=user.Id;
+
+                List<ProductReturnVM> basketproducts = JsonConvert.DeserializeObject<List<ProductReturnVM>>(Request.Cookies["basket"]);
+
+                List<SaleProduct> saleProducts = new List<SaleProduct>();
+                double total = 0;
+                foreach (var product in basketproducts)
+                {
+                    Product dbProduct= await _context.Products.FindAsync(product.Id);
+                    SaleProduct saleProduct= new SaleProduct();
+                    saleProduct.ProductId=dbProduct.Id;
+                    saleProduct.Count=product.ProductCount;
+                    saleProduct.SaleId = sale.Id;
+                    saleProducts.Add(saleProduct);
+                    total+=product.ProductCount*dbProduct.Price;
+                }
+                sale.SaleProducts=saleProducts;
+                sale.TotalPrice=total;
+                await _context.AddAsync(sale);
+                await _context.SaveChangesAsync();
+
+                TempData["success"] = "sale successly";
+
+                return RedirectToAction("ShowItem");
+            }
+            else 
+            {
+                return RedirectToAction("login", "account");
+            }
         }
     }
 }

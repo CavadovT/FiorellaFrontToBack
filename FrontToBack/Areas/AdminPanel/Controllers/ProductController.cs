@@ -163,11 +163,13 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
                     }
                     string oldPhoto = dbProd.ImgUrl;
                     string path = Path.Combine(_env.WebRootPath, "img", oldPhoto);
-                    dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
 
                     Helper.Helper.DeleteImage(path);
+
+                    dbProd.ImgUrl = product.Photo.SaveImage(_env,"img");
+
                 }
-               
+
                 dbProd.Name = product.Name;
                 dbProd.Price = product.Price;
                 dbProd.CategoryId = product.CategoryId;
@@ -176,8 +178,6 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
 
             }
             return RedirectToAction("index");
-
         }
-        
     }
 }

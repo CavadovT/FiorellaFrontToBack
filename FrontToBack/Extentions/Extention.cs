@@ -15,11 +15,11 @@ namespace FrontToBack.Extentions
         {
             return file.Length/1024>size;
         }
-        public static string SaveImage(this IFormFile file,IWebHostEnvironment env,params string[] folder) 
+        public static string SaveImage(this IFormFile file, IWebHostEnvironment env, string folder)
         {
             string fileName = Guid.NewGuid().ToString() + file.FileName;
 
-            string path = Path.Combine(env.WebRootPath, "img", fileName);
+            string path = Path.Combine(env.WebRootPath,folder, fileName);
             //string str = product.Photo.FileName;
             //string []arr = str.Split(".");
             //string filename = arr[0] + $"({i})";
