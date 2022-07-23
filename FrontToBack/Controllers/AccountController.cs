@@ -2,7 +2,9 @@
 using FrontToBack.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
+using static FrontToBack.Helper.Helper;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace FrontToBack.Controllers
@@ -50,7 +52,7 @@ namespace FrontToBack.Controllers
                 }
                 return View(registerVM);
             }
-            await _signInManager.SignInAsync(user, isPersistent: true);
+            await _userManager.AddToRoleAsync(user, UserRoles.Memmber.ToString());
 
             return RedirectToAction("Index", "home");
         }
@@ -63,7 +65,7 @@ namespace FrontToBack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM loginVM)
+        public async Task<IActionResult> Login(LoginVM loginVM,string ReturnUrl)
         {
             if (!ModelState.IsValid) return View();
             AppUser user = await _userManager.FindByEmailAsync(loginVM.Email);
@@ -82,14 +84,37 @@ namespace FrontToBack.Controllers
                 ModelState.AddModelError("", "email or password invalided");
                 return View(loginVM);
             }
+            await _signInManager.SignInAsync(user, isPersistent: true);
+
+            if (ReturnUrl!=null)
+            {
+                return Redirect(ReturnUrl);
+            }
 
             return RedirectToAction("index", "home");
         }
-
+        /// <summary>
+        /// Logout Action
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("login");
         }
+
+
+        public async Task<IActionResult> CreateRole()
+        {
+            foreach (var item in Enum.GetValues(typeof(UserRoles))) 
+            {
+                if (!await _roleManager.RoleExistsAsync(item.ToString())) 
+                {
+                    await _roleManager.CreateAsync(new IdentityRole { Name = item.ToString() });
+                }
+            }
+            return RedirectToAction("index", "home");
+        }
+
     }
 }
