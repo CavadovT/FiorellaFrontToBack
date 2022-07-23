@@ -1,11 +1,15 @@
 ﻿using FrontToBack.DAL;
 using FrontToBack.Extentions;
 using FrontToBack.Models;
+using FrontToBack.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrontToBack.Areas.AdminPanel.Controllers
@@ -26,9 +30,26 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
         /// Home view
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int take = 5)
         {
-            return View(await _context.Products.Include(p => p.Category).ToListAsync());
+            ViewBag.Page=page;
+            List<Product> products = await _context.Products.Include(p => p.Category).Skip((page - 1) * take).Take(take).ToListAsync();
+            int pageCount = await PageCount(take);
+            PaginationVM<Product> pagVM = new PaginationVM<Product>(products, await PageCount(take), page);
+            return View(pagVM);
+        }
+
+        private async Task<int> PageCount(int take)
+        {
+            List<Product> products = await _context.Products.ToListAsync();
+            if (products.Count() % take == 0)
+            {
+                return (int)Math.Ceiling((decimal)(products.Count() / take));
+            }
+            else 
+            {
+                return (int)Math.Ceiling((decimal)(products.Count() / take)) + 1;
+            }
         }
         /// <summary>
         /// Detail View
@@ -104,10 +125,10 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
         }
 
 
-        public async Task<IActionResult> Update(int? Id) 
+        public async Task<IActionResult> Update(int? Id)
         {
             ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
-            if (Id==null) return NotFound();
+            if (Id == null) return NotFound();
             Product dbProd = await _context.Products.FindAsync(Id);
             if (dbProd == null) return BadRequest();
             return View(dbProd);
@@ -149,7 +170,7 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
                 {
                     dbProd.ImgUrl = dbProd.ImgUrl;
                 }
-                else 
+                else
                 {
                     if (!product.Photo.IsImage())
                     {
@@ -166,7 +187,7 @@ namespace FrontToBack.Areas.AdminPanel.Controllers
 
                     Helper.Helper.DeleteImage(path);
 
-                    dbProd.ImgUrl = product.Photo.SaveImage(_env,"img");
+                    dbProd.ImgUrl = product.Photo.SaveImage(_env, "img");
 
                 }
 

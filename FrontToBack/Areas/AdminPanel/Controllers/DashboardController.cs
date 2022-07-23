@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FrontToBack.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class DashboardController : Controller
     {
         public IActionResult Index()

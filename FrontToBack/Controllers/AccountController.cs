@@ -65,7 +65,7 @@ namespace FrontToBack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM loginVM,string ReturnUrl)
+        public async Task<IActionResult> Login(LoginVM loginVM, string ReturnUrl)
         {
             if (!ModelState.IsValid) return View();
             AppUser user = await _userManager.FindByEmailAsync(loginVM.Email);
@@ -85,8 +85,16 @@ namespace FrontToBack.Controllers
                 return View(loginVM);
             }
             await _signInManager.SignInAsync(user, isPersistent: true);
+            var roles = await _userManager.GetRolesAsync(user);
 
-            if (ReturnUrl!=null)
+            foreach (var item in roles)
+            {
+                if (item == "Admin")
+                {
+                    return RedirectToAction("index", "dashboard", new { area = "AdminPanel" });
+                }
+            }
+            if (ReturnUrl != null)
             {
                 return Redirect(ReturnUrl);
             }
@@ -106,9 +114,9 @@ namespace FrontToBack.Controllers
 
         public async Task<IActionResult> CreateRole()
         {
-            foreach (var item in Enum.GetValues(typeof(UserRoles))) 
+            foreach (var item in Enum.GetValues(typeof(UserRoles)))
             {
-                if (!await _roleManager.RoleExistsAsync(item.ToString())) 
+                if (!await _roleManager.RoleExistsAsync(item.ToString()))
                 {
                     await _roleManager.CreateAsync(new IdentityRole { Name = item.ToString() });
                 }
