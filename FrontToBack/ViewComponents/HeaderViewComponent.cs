@@ -36,7 +36,7 @@ namespace FrontToBack.ViewComponents
             if (basket != null)
             {
                 List<ProductReturnVM> prodList = JsonConvert.DeserializeObject<List<ProductReturnVM>>(basket);
-               
+
                 foreach (var item in prodList)
                 {
                     Product dbProd = _context.Products.FirstOrDefault(p => p.Id == item.Id);
@@ -50,12 +50,12 @@ namespace FrontToBack.ViewComponents
                 foreach (var item in prodList)
                 {
                     totalCount += item.ProductCount;
-                    totalPrice += (item.Price*item.ProductCount);
+                    totalPrice += (item.Price * item.ProductCount);
                 }
                 ViewBag.totalCount = totalCount;
                 ViewBag.totalPrice = totalPrice;
             }
-            else 
+            else
             {
                 ViewBag.totalCount = 0;
                 ViewBag.totalPrice = 0;

@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityRole
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+<div>
+    <h1 >Id: @Model.Id</h1>
+    <h1>Name: @Model.Name</h1>
+    <h1>NormailzedName: @Model.NormalizedName</h1>
+</div>

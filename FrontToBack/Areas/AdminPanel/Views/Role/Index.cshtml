@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<IdentityRole>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+ <div class="row">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Role</h3>
+                          <a class="btn btn-warning" asp-action="create">Create Role</a>
+                            <div class="table-responsive">
+                                <table class="table text-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Settings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (IdentityRole item in Model)
+                                       {
+                                            <tr>
+                                            <td>@item.Name</td>
+                                            <td class="text-nowrap">
+
+                                                <a  class="mx-2 btn btn-secondary " asp-action="update" asp-route-id="@item.Id"><i  class="fas fa-database"></i></a>
+                                                <a class="mx-2 btn btn-primary " asp-action="detail" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a>
+                                                <a class="mx-2 btn btn-danger " asp-action="delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                       }
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/admin/js/ckeditor/ckeditor.js"></script>
+<script src="~/admin/js/ckeditor/build-config.js"></script>
+<script src="~/admin/js/ckeditor/config.js"></script>
+
+<div class="row">
+    <h1>Role</h1>
+        <form method="post" >
+          <div class="form-group">
+             
+             <input name="role" type="text" class="form-control"  placeholder="Enter Name">
+             
+          </div>
+         
+          <button type="submit" class="btn btn-success">Submit</button>
+         <a class="btn btn-dark" asp-action="Index">Go Back</a>
+        </form>
+</div>
+@section scripts
+{
+
+    <partial name="_ValidationPartial"></partial>
+
+    
+}
+
