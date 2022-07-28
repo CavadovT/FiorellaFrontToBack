@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FrontToBack.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
-    [Authorize]
+    //[Authorize]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _context;

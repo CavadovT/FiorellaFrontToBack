@@ -17,6 +17,8 @@ namespace FrontToBack.Controllers
         }
         public IActionResult Index()
         {
+            
+
             HomeVM homeVM = new HomeVM();
             homeVM.Sliders = _context.Sliders.ToList();
             homeVM.SliderContent = _context.SliderContents.FirstOrDefault();
