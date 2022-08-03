@@ -1,5 +1,6 @@
 using FrontToBack.DAL;
 using FrontToBack.Models;
+using FrontToBack.SignalRChat;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -45,6 +46,9 @@ namespace FrontToBack
                 opt.Lockout.AllowedForNewUsers = true;
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            services.AddSignalR();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +76,7 @@ namespace FrontToBack
                     "default",
                     "{Controller=Home}/{Action=Index}/{Id?}"
                     );
+                endpoints.MapHub<HubChat>("/chat");
 
             });
 

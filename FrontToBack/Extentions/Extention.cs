@@ -20,9 +20,7 @@ namespace FrontToBack.Extentions
             string fileName = Guid.NewGuid().ToString() + file.FileName;
 
             string path = Path.Combine(env.WebRootPath,folder, fileName);
-            //string str = product.Photo.FileName;
-            //string []arr = str.Split(".");
-            //string filename = arr[0] + $"({i})";
+           
 
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
