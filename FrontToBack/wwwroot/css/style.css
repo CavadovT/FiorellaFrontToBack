@@ -58,7 +58,12 @@ header nav ul li a {
   color: black !important;
   font-weight: 500;
 }
-
+.bg-online {
+background-color:green!important;
+}
+.bg-ofline {
+background-color:gray !important;
+}
 header nav ul li a::after {
   content: "";
   -webkit-transition: width .3s;
